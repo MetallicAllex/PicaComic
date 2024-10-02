@@ -12,7 +12,7 @@ jobs:
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
-        distribution: 'temurin' # 可以选择其他的 JDK 发行版，比如 Zulu
+        distribution: 'temurin'
         java-version: '17'
 
     # 设置 Flutter 环境
@@ -20,14 +20,23 @@ jobs:
       with:
         channel: 'stable'
 
+    # 解码并生成 keystore 文件
+    - name: Decode keystore
+      run: echo "${{ secrets.KEYSTORE_FILE }}" | base64 --decode > android/app/release-key.jks
+
+    # 创建 key.properties 文件
+    - name: Create key.properties
+      run: |
+        echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/key.properties
+        echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+        echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
+        echo "storeFile=release-key.jks" >> android/key.properties
+
     # 安装依赖
     - run: flutter pub get
 
     # 构建 Android APK
     - run: flutter build apk --release
-
-    # 创建用于存放 APK 文件的目录
-    - run: mkdir -p build/app/outputs/flutter-apk/
 
     # 上传 APK 文件作为构建工件
     - uses: actions/upload-artifact@v4
