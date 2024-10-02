@@ -27,7 +27,7 @@ jobs:
 
       - name: Generate keystore
         run: |
-          keytool -genkeypair -v -keystore release-key.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias release \
+          keytool -genkeypair -v -keystore /home/runner/work/PicaComic/PicaComic/android/app/release-key.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias release \
           -dname "CN=MetallicAllex, OU=MetaDev, O=MetaDeveloper, L=China, ST=Unknown, C=CN" \
           -storepass ${{ secrets.KEYSTORE_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }}
 
