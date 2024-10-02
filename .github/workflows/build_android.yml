@@ -31,6 +31,13 @@ jobs:
           -dname "CN=MetallicAllex, OU=MetaDev, O=MetaDeveloper, L=China, ST=Unknown, C=CN" \
           -storepass ${{ secrets.KEYSTORE_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }}
 
+      - name: Create key.properties file
+        run: |
+          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=release" >> android/key.properties
+          echo "storeFile=release-key.jks" >> android/key.properties
+        
       - name: Build APK
         run: flutter build apk --release
 
