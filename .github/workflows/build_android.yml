@@ -1,0 +1,28 @@
+name: Build Android
+run-name: Build Android
+on:
+  workflow_dispatch: {}
+jobs:
+  Build_Android:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+    
+    # 安装依赖
+    - run: flutter pub get
+    
+    # 构建 Android APK
+    - run: flutter build apk --release
+    
+    # 创建用于存放 APK 文件的目录
+    - run: mkdir -p build/app/outputs/flutter-apk/
+    
+    # 上传 APK 文件作为构建工件
+    - uses: actions/upload-artifact@v4
+      with:
+        name: app-release.apk
+        path: build/app/outputs/flutter-apk/app-release.apk
