@@ -7,6 +7,11 @@
 
 A comic app with multiple sources built with flutter.
 
+That repository just build the apk file to download.
+
+# Download
+go to [releases](https://github.com/MetallicAllex/PicaComic_build/releases) to download APK.
+
 ## How to use
 
 1. Clone the repository
